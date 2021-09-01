@@ -1,10 +1,13 @@
-const fs = require("fs");
-const { EventEmitter } = require("events");
+const fs = require('fs');
+const http = require('http');
 
-var myEmitter = new EventEmitter();
+const server = http.createServer(handleRequest);
 
-myEmitter.on("readfile", (msg) => {
-    console.log(msg);
-})
+function handleRequest(req, res) {
+  res.setHeader('Content-Type', 'text/plain');
+  fs.createReadStream('./readme.txt').pipe(res);
+}
 
-myEmitter.emit('readfile', fs.createReadStream('./readme.txt'));
+server.listen(5000, () => {
+  console.log('server is listen on 5000');
+});
