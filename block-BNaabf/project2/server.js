@@ -10,8 +10,10 @@ function handleRequest(req, res) {
   });
   req.on('end', () => {
     if ((req.method === 'GET') & (req.url == '/form')) {
+      res.setHeader('Content-Type', 'text/html');
       fs.createReadStream('./index.html').pipe(res);
-    } else if ((req.method === 'POST') & (req.url === '/form')) {
+    }
+    if ((req.method === 'POST') & (req.url === '/form')) {
       let formData = qs.parse(store);
       res.setHeader('Content-Type', 'text/html');
       res.end(
